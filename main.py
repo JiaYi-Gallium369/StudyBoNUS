@@ -90,10 +90,11 @@ def get_direct_link(drive_link: str) -> str:
     return f"https://drive.google.com/uc?export=download&id={file_id}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data.clear()
     context.user_data['history'] = []  # Initialize the history stack
 
     """Start the conversation and ask user to select faculty."""
-    keyboard = [['School of Computing']]
+    keyboard = [['School of Computing'], ['Upcoming']]
     reply_markup = ReplyKeyboardMarkup(
         keyboard, 
         one_time_keyboard=True,
@@ -116,6 +117,12 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         return await start(update, context)
         
     if faculty == "Back":
+        return await start(update, context)
+    
+    if faculty == "Upcoming":
+        await update.message.reply_text(
+            "More faculties upcoming soon! Stay tuned! :3"
+        )
         return await start(update, context)
     
     context.user_data['faculty'] = faculty
@@ -184,6 +191,25 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             "Sorry, no courses available for this selection. Please try again.",
             reply_markup=ReplyKeyboardRemove()
         )
+        keyboard = [
+            ['1000 Level'],
+            ['2000 Level'],
+            ['3000 Level'],
+            ['4000 Level'],
+            ['5000 Level'],
+            ['6000 Level'],
+            ['Others'],
+            ['Back', 'Main Menu']
+        ]
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard,
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Please select the course level:",
+            reply_markup=reply_markup
+        )
         return LEVEL
 
 async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -226,6 +252,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 course_info = course_dict[course_code]
                 print(course_info)
                 context.user_data['course'] = course_code
+            
         
         keyboard = [
             ['Notes'],
@@ -257,6 +284,9 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             "Sorry, course information not available. Please try again.",
             reply_markup=ReplyKeyboardRemove()
         )
+        courses = COURSES_DATA[context.user_data['faculty']][context.user_data['level']]
+        keyboard = [[course] for course in courses]
+        keyboard.append(['Back', 'Main Menu'])
         return COURSE
 
 async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -452,39 +482,52 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 
                 if material_type == 'Cheatsheet':
                     drive_links = materials['Cheatsheet'][exam_type]
+                    if not isinstance(drive_links, list):
+                       drive_links = [drive_links]
+                
+                    await update.message.reply_text(
+                        f"Sending {len(drive_links)} {material_type.lower()}..."
+                    )
                     
                 else:  # Past Papers
                     year = update.message.text if 'year' not in context.user_data else context.user_data['year']
                     drive_links = materials['Past Papers'][exam_type][year]
+                    if not isinstance(drive_links, list):
+                       drive_links = [drive_links]
                 
+                    await update.message.reply_text(
+                        f"Sending {len(drive_links)} {material_type.lower()}..."
+                    )
+
+                print(drive_links) 
                 for index, drive_link in enumerate(drive_links):
-                    direct_link = get_direct_link(drive_link)
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    filename = f"{course}_{material_type}_{exam_type}_{timestamp}.pdf"
-                if material_type == 'Past Papers':
-                    filename = f"{course}_{material_type}_{exam_type}_{year}_{timestamp}.pdf"
-                
-                    filepath = os.path.join('downloads', filename)
-                    
-                    response = requests.get(direct_link)
-                    if response.status_code == 200:
-                        with open(filepath, 'wb') as f:
-                            f.write(response.content)
+                    try:
+                        direct_link = get_direct_link(drive_link)
+                        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                        filename = f"{course}_{material_type}_{index+1}_{timestamp}.pdf"
+                        filepath = os.path.join('downloads', filename)
                         
-                        with open(filepath, 'rb') as f:
-                            await context.bot.send_document(
-                                chat_id=update.message.chat_id,
-                                document=f,
-                                filename=filename
+                        response = requests.get(direct_link)
+                        if response.status_code == 200:
+                            with open(filepath, 'wb') as f:
+                                f.write(response.content)
+                            
+                            with open(filepath, 'rb') as f:
+                                await context.bot.send_document(
+                                    chat_id=update.message.chat_id,
+                                    document=f,
+                                    filename=filename
+                                )
+                        else:
+                            await update.message.reply_text(
+                                f"Failed to download file {index+1}. You can access it directly here:\n{drive_link}"
                             )
-                        
-                    # Success message without ending conversation
+                    except Exception as e:
+                        logger.error(f"Error sending file {index+1}: {str(e)}")
                         await update.message.reply_text(
-                            "Document sent successfully!"
+                            f"Error sending file {index+1}. You can access it directly here:\n{drive_link}"
                         )
-                    else:
-                        raise ValueError(f"Failed to download file: Status code {response.status_code}")
-                
+
             except Exception as e:
                 logger.error(f"Error sending file: {str(e)}")
                 await update.message.reply_text(
@@ -522,12 +565,17 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     logger.error(f"Update {update} caused error {context.error}")
     try:
         if update.message:
+            # Clean up any existing conversation state
+            context.user_data.clear()
+            
             await update.message.reply_text(
-                "Sorry, something went wrong. Please try /start again.",
-                reply_markup=ReplyKeyboardRemove()
+                "An error occurred. Please use /start to begin again.",
+                reply_markup=ReplyKeyboardRemove()  # Remove any existing keyboard
             )
     except Exception as e:
         logger.error(f"Error in error handler: {str(e)}")
+    return ConversationHandler.END  # Always end the conversation on error
+
 
 async def spam_user_until_comeback(update:Update, context: ContextTypes.DEFAULT_TYPE):
     while study_state['break']:
@@ -583,7 +631,9 @@ def main() -> None:
     application = ApplicationBuilder().token('8122445200:AAF6Kh0kqdQyS-y-Y1wfrQ_6EsxiaiVCNVU').build()
     
     conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('start', start)],
+        entry_points=[CommandHandler('start', start),
+                    MessageHandler(filters.TEXT & ~filters.COMMAND, start)
+        ],
         states={
             FACULTY: [MessageHandler(filters.TEXT & ~filters.COMMAND, faculty_choice)],
             LEVEL: [MessageHandler(filters.TEXT & ~filters.COMMAND, level_choice)],
@@ -592,7 +642,11 @@ def main() -> None:
             EXAM_TYPE: [MessageHandler(filters.TEXT & ~filters.COMMAND, exam_type_choice)],
             YEAR: [MessageHandler(filters.TEXT & ~filters.COMMAND, year_choice)]
         },
-        fallbacks=[CommandHandler('cancel', cancel)]
+        fallbacks=[
+            CommandHandler('cancel', cancel),
+            CommandHandler('start', start),
+            MessageHandler(filters.TEXT & ~filters.COMMAND, error_handler)]
+
     )
     
     application.add_handler(conv_handler)
