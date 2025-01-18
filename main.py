@@ -279,7 +279,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 print(course_info)
                 context.user_data['course'] = course_code
             else:
-                raise KeyError
+                raise KeyError  
         else:
             raise KeyError
             
@@ -404,6 +404,20 @@ async def exam_type_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             reply_markup=reply_markup
         )
         return MATERIAL_TYPE
+    
+    if exam_type not in EXAM_TYPE_DATA:
+        await update.message.reply_text(
+            "Invalid exam type. Please select again.",
+            reply_markup=ReplyKeyboardRemove()
+        )
+        keyboard = [[exam] for exam in EXAM_TYPE_DATA]
+        keyboard.append(['Back', 'Main Menu'])
+        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            f"Please select the exam type for {context.user_data['material_type']}:",
+            reply_markup=reply_markup
+        )
+        return EXAM_TYPE
 
     context.user_data['exam_type'] = exam_type
     material_type = context.user_data['material_type']
@@ -479,10 +493,15 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             drive_links = materials[material_type]
             if not isinstance(drive_links, list):
                 drive_links = [drive_links]
-                
-            await update.message.reply_text(
-                f"Sending {len(drive_links)} {material_type.lower()}..."
-            )
+            
+            if len(drive_links) != 0:
+                await update.message.reply_text(
+                    f"Sending {len(drive_links)} {material_type.lower()}..."
+                )
+            else:
+                await update.message.reply_photo(
+                    photo="./empty.jpg",
+                )
             
             for index, drive_link in enumerate(drive_links):
                 try:
@@ -524,9 +543,14 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                     if not isinstance(drive_links, list):
                        drive_links = [drive_links]
                 
-                    await update.message.reply_text(
-                        f"Sending {len(drive_links)} {material_type.lower()}..."
-                    )
+                    if len(drive_links) != 0:
+                        await update.message.reply_text(
+                            f"Sending {len(drive_links)} {material_type.lower()}..."
+                        )
+                    else:
+                        await update.message.reply_photo(
+                            photo="./empty.jpg",
+                        )
                     
                 else:  # Past Papers
                     year = update.message.text if 'year' not in context.user_data else context.user_data['year']
@@ -534,9 +558,14 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                     if not isinstance(drive_links, list):
                        drive_links = [drive_links]
                 
-                    await update.message.reply_text(
-                        f"Sending {len(drive_links)} {material_type.lower()}..."
-                    )
+                    if len(drive_links) != 0:
+                        await update.message.reply_text(
+                            f"Sending {len(drive_links)} {material_type.lower()}..."
+                        )
+                    else:
+                        await update.message.reply_photo(
+                            photo="./empty.jpg",
+                        )
 
                 print(drive_links) 
                 for index, drive_link in enumerate(drive_links):
