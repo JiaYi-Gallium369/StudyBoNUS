@@ -58,6 +58,8 @@ COURSE_INFO = {
     }
 }
 
+NUS_MODS_WEBSITE_PREFIX = "https://nusmods.com/courses/"
+
 def get_direct_link(drive_link: str) -> str:
     """Convert Google Drive sharing link to direct download link."""
     file_id = None
@@ -164,7 +166,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         message_text = (
             f"Course: {course_code}\n"
             f"Description: {course_info['description']}\n"
-            f"Course Link: {course_info['link']}\n\n"
+            f"Course Link: {NUS_MODS_WEBSITE_PREFIX + course_code}\n\n"
             "Please select the material type:"
         )
         
