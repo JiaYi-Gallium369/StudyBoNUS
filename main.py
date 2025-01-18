@@ -330,7 +330,7 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 
                 direct_link = get_direct_link(drive_link)
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"{course}_{material_type}_{exam_type}_{timestamp}.pdf"
+                filename = f"{course}_{material_type}_{exam_type}.pdf"
                 filepath = os.path.join('downloads', filename)
                 
                 response = requests.get(direct_link)
