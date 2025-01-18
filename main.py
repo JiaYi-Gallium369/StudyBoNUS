@@ -40,20 +40,20 @@ COURSE_INFO = {
         'description': 'Programming Methodology',
         'link': 'http://dummy.com/cs1101s',
         'materials': {
-            'Notes': 'https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
-            'Cheatsheet': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
-            'Past Papers': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'
+            'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
+            'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+            'Cheatsheet': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+            'Past Papers': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing']
         }
     },
     'CS1231S': {
         'description': 'Discrete Structures',
         'link': 'http://dummy.com/cs1231s',
         'materials': {
-            'Notes': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
-            'Cheatsheet': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
-            'Past Papers': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'
+            'Notes': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+            'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+            'Cheatsheet': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+            'Past Papers': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing']
         }
     }
 }
@@ -185,44 +185,47 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     try:
         material_type = update.message.text
         course = context.user_data['course']
-        drive_link = COURSE_INFO[course]['materials'][material_type]
+        drive_links = COURSE_INFO[course]['materials'][material_type]
         
         await update.message.reply_text(
-            f"Retrieving {material_type} for {course}...",
+            f"Retrieving {len(drive_links)} {material_type} for {course}...",
             reply_markup=ReplyKeyboardRemove()
         )
-        
-        try:
-            # Get direct download link
-            direct_link = get_direct_link(drive_link)
-            
-            # Download the file first
-            response = requests.get(direct_link)
-            if response.status_code == 200:
-                # Send document using the downloaded content
-                await context.bot.send_document(
-                    chat_id=update.message.chat_id,
-                    document=response.content,  # Send the actual file content
-                    filename=f"{course}_{material_type}.pdf"
+        counter = 0
+        for drive_link in drive_links:
+            counter += 1
+            try:
+                # Get direct download link
+                direct_link = get_direct_link(drive_link)
+                
+                # Download the file first
+                response = requests.get(direct_link)
+                if response.status_code == 200:
+                    # Send document using the downloaded content
+                    await context.bot.send_document(
+                        chat_id=update.message.chat_id,
+                        document=response.content,  # Send the actual file content
+                        filename=f"{course}_{material_type}_{counter}.pdf"
+                    )
+                    
+                    
+                else:
+                    raise ValueError(f"Failed to download file: Status code {response.status_code}")
+                
+            except ValueError as e:
+                await update.message.reply_text(
+                    "Sorry, there seems to be an issue with the file link. "
+                    "Here's the direct link instead:\n" + drive_link
                 )
                 
+            except Exception as e:
+                logger.error(f"Error sending file: {str(e)}")
                 await update.message.reply_text(
-                    "Here's your document! Use /start to request another material."
+                    "Sorry, there was an error sending the file. "
+                    "You can access it directly here:\n" + drive_link
                 )
-            else:
-                raise ValueError(f"Failed to download file: Status code {response.status_code}")
-            
-        except ValueError as e:
-            await update.message.reply_text(
-                "Sorry, there seems to be an issue with the file link. "
-                "Here's the direct link instead:\n" + drive_link
-            )
-            
-        except Exception as e:
-            logger.error(f"Error sending file: {str(e)}")
-            await update.message.reply_text(
-                "Sorry, there was an error sending the file. "
-                "You can access it directly here:\n" + drive_link
+        await update.message.reply_text(
+                "Here's your document! Use /start to request another material."
             )
             
     except KeyError:
