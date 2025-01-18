@@ -113,6 +113,7 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     """Handle faculty selection and show course levels."""
     faculty = update.message.text
     
+    
     if faculty == "Main Menu":
         return await start(update, context)
         
@@ -124,7 +125,23 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             "More faculties upcoming soon! Stay tuned! :3"
         )
         return await start(update, context)
-    
+    faculties = COURSES_DATA.keys()
+    if faculty not in faculties:
+        await update.message.reply_text(
+            "Invalid faculty. Please select again.",
+            reply_markup=ReplyKeyboardRemove()
+        )
+        keyboard = [['School of Computing'], ['Upcoming']]
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard, 
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Please select your faculty:",
+            reply_markup=reply_markup
+        )
+        return FACULTY
     context.user_data['faculty'] = faculty
     
     keyboard = [
@@ -157,7 +174,7 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         return await start(update, context)
 
     if level == "Back":
-        keyboard = [['School of Computing']]
+        keyboard = [['School of Computing', 'Upcoming']]
         reply_markup = ReplyKeyboardMarkup(
             keyboard, 
             one_time_keyboard=True,
@@ -211,6 +228,12 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             reply_markup=reply_markup
         )
         return LEVEL
+    
+def get_first_digit(s: str) -> int:
+    for char in s:
+        if char.isdigit():
+            return int(char)
+    return None
 
 async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Handle course selection and show course information and material options."""
@@ -242,7 +265,10 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return LEVEL
     
     try:
-        prefix = int(course_code[2])
+        # prefix is first digit of course code
+        prefix = get_first_digit(course_code)
+        if prefix is None:
+            raise KeyError
         if 1 <= prefix <= 6: 
             print(prefix)
             course_dict = globals().get(f"COURSE_INFO_{prefix}K")
@@ -252,6 +278,10 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 course_info = course_dict[course_code]
                 print(course_info)
                 context.user_data['course'] = course_code
+            else:
+                raise KeyError
+        else:
+            raise KeyError
             
         
         keyboard = [
@@ -287,6 +317,15 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         courses = COURSES_DATA[context.user_data['faculty']][context.user_data['level']]
         keyboard = [[course] for course in courses]
         keyboard.append(['Back', 'Main Menu'])
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard,
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Please select the course:",
+            reply_markup=reply_markup
+        )
         return COURSE
 
 async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
