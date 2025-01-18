@@ -21,7 +21,7 @@ COURSE_INFO_2K = {
                     'LATEST': []
                 },
                 'Final': {
-                    'EARLIER': ['https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing'],
+                    'EARLIER': [],
                     '18/19': [],
                     '19/20': [],
                     '20/21': ['https://drive.google.com/file/d/1IjEfMnw9cZLK0B0pBMZz02BHlB8yp-WN/view?usp=sharing'],
