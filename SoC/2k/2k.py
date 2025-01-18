@@ -20,6 +20,7 @@ COURSE_INFO_2K = {
                     '21/22': ['https://drive.google.com/file/d/1IWHJ4BPoX-4wl9UAVvDC3dZ5bixc1fqE/view?usp=sharing']
                 }
             }
+        }
     },
     'CS2030S': {
         'description': 'Programming Methodology II',
@@ -44,7 +45,7 @@ COURSE_INFO_2K = {
                 },
             }
         }
-    }
+    },
     'CS2100': {
         'description': 'Computer Organisation',
         'materials': {
@@ -66,7 +67,7 @@ COURSE_INFO_2K = {
                 },
             }
         }
-    }
+    },
     'CS2106': {
         'description': 'Introduction to Operating Systems',
         'materials': {
@@ -86,7 +87,7 @@ COURSE_INFO_2K = {
                 },
             }
         }
-    }
+    },
     'CS2109S': {
         'description': 'Introduction to AI and Machine Learning',
         'materials': {

@@ -22,6 +22,7 @@ COURSE_INFO_1K = {
                     '20/21': ['https://drive.google.com/file/d/1K6WHsdztStb212Tj8gkOUtJAlQJmHztL/view?usp=sharing', 'https://drive.google.com/file/d/1qrU4oGVQ1s9ZsudrGz4SQiJ8E5u1ORNI/view?usp=sharing']
                 }
             }
+        }
     },
     'CS1231S': {
         'description': 'Discrete Structures',
