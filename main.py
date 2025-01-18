@@ -20,6 +20,12 @@ from brainrot import BRAIN_ROT_VIDEOS
 
 import os
 from datetime import datetime
+from SoC.onek.onek import COURSE_INFO_1K
+from SoC.twok.twok import COURSE_INFO_2K
+from SoC.threek.threek import COURSE_INFO_3K
+from SoC.fourK.fourK import COURSE_INFO_4K
+from SoC.fiveK.fiveK import COURSE_INFO_5K
+from SoC.sixK.sixK import COURSE_INFO_6K
 
 
 # Enable logging
@@ -41,60 +47,12 @@ YEAR_DATA = ['EARLIER', '18/19', '19/20', '20/21', '21/22', '22/23', '23/24', 'L
 COURSES_DATA = {
     'School of Computing': {
         '1000 Level': ['CS1101S', 'CS1231S'],
-        '2000 Level': ['CS2030S', 'CS2040S'],
-        '3000 Level': ['CS3230', 'CS3243'],
-        '4000 Level': ['CS4248', 'CS4224'],
-        '5000 Level': ['CS5228', 'CS5242'],
-        '6000 Level': ['CS6203', 'CS6215'],
+        '2000 Level': ['CS2030S', 'CS2040S', 'CS2100', 'CS2109S'],
+        '3000 Level': ['CS3230', 'CS3243', 'CS3213', 'CS3210'],
+        '4000 Level': ['CS4211', 'CS4212', 'CS4215', 'CS4220'],
+        '5000 Level': ['CS5231', 'CS5242', 'CS5322', 'CS5339'],
+        '6000 Level': ['CS6217', 'CS6222'],
         'Others': ['CFG1002', 'CS2101']
-    }
-}
-
-COURSE_INFO = {
-    'CS1101S': {
-        'description': 'Programming Methodology',
-        'materials': {
-            'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/d/midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/d/final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_midterm_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/2018_final_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_final_paper_id/view?usp=sharing'
-                } 
-            }
-        }
-    },
-    'CS1231S': {
-        'description': 'Discrete Structures',
-        'materials': {
-            'Notes': 'https://drive.google.com/file/cs1231s_notes_id/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/cs1231s_slides_id/view?usp=sharing',
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/cs1231s_midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/cs1231s_final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_midterm_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/cs1231s_2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_final_paper_id/view?usp=sharing',
-                },
-            }
-        }
     }
 }
 
@@ -123,6 +81,8 @@ def get_direct_link(drive_link: str) -> str:
     return f"https://drive.google.com/uc?export=download&id={file_id}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data['history'] = []  # Initialize the history stack
+
     """Start the conversation and ask user to select faculty."""
     keyboard = [['School of Computing']]
     reply_markup = ReplyKeyboardMarkup(
@@ -141,6 +101,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
 async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Handle faculty selection and show course levels."""
     faculty = update.message.text
+    
+    if faculty == "Main Menu":
+        return await start(update, context)
+        
+    if faculty == "Back":
+        return await start(update, context)
+    
     context.user_data['faculty'] = faculty
     
     keyboard = [
@@ -168,14 +135,29 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Handle level selection and show available courses."""
     level = update.message.text
-    faculty = context.user_data['faculty']
 
-    if level in ['Back', 'Main Menu']:
+    if level == "Main Menu":
         return await start(update, context)
+
+    if level == "Back":
+        keyboard = [['School of Computing']]
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard, 
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Please select your faculty:",
+            reply_markup=reply_markup
+        )
+        return FACULTY
+
+    context.user_data['level'] = level
     
     try:
-        courses = COURSES_DATA[faculty][level]
-        keyboard = [[course] for course in courses + ['Back', 'Main Menu']]
+        courses = COURSES_DATA[context.user_data['faculty']][level]
+        keyboard = [[course] for course in courses]
+        keyboard.append(['Back', 'Main Menu'])
         reply_markup = ReplyKeyboardMarkup(
             keyboard,
             one_time_keyboard=True,
@@ -189,21 +171,51 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         return COURSE
     except KeyError:
         await update.message.reply_text(
-            "Sorry, no courses available for this selection. Please /start again.",
+            "Sorry, no courses available for this selection. Please try again.",
             reply_markup=ReplyKeyboardRemove()
         )
-        return ConversationHandler.END
+        return LEVEL
 
 async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Handle course selection and show course information and material options."""
     course_code = update.message.text
 
-    if course_code in ['Back', 'Main Menu']:
-        return await level_choice(update, context)
+    if course_code == "Main Menu":
+        return await start(update, context)
+
+    if course_code == "Back":
+        keyboard = [
+            ['1000 Level'],
+            ['2000 Level'],
+            ['3000 Level'],
+            ['4000 Level'],
+            ['5000 Level'],
+            ['6000 Level'],
+            ['Others'],
+            ['Back', 'Main Menu']
+        ]
+        reply_markup = ReplyKeyboardMarkup(
+            keyboard,
+            one_time_keyboard=True,
+            resize_keyboard=True
+        )
+        await update.message.reply_text(
+            "Please select the course level:",
+            reply_markup=reply_markup
+        )
+        return LEVEL
     
     try:
-        course_info = COURSE_INFO[course_code]
-        context.user_data['course'] = course_code
+        prefix = int(course_code[2])
+        if 1 <= prefix <= 6: 
+            print(prefix)
+            course_dict = globals().get(f"COURSE_INFO_{prefix}K")
+            print(course_dict)
+            print(course_code)
+            if course_code in course_dict:
+                course_info = course_dict[course_code]
+                print(course_info)
+                context.user_data['course'] = course_code
         
         keyboard = [
             ['Notes'],
@@ -232,22 +244,41 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return MATERIAL_TYPE
     except KeyError:
         await update.message.reply_text(
-            "Sorry, course information not available. Please /start again.",
+            "Sorry, course information not available. Please try again.",
             reply_markup=ReplyKeyboardRemove()
         )
-        return ConversationHandler.END
-    
+        return COURSE
+
 async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Handle material type selection and proceed to send materials if necessary."""
+    """Handle material type selection and proceed accordingly."""
     material_type = update.message.text
-    if material_type in ['Back', 'Main Menu']:
-        return await course_choice(update, context)
+
+    if material_type == "Main Menu":
+        return await start(update, context)
+    
+    if material_type == "Back":
+        try:
+            courses = COURSES_DATA[context.user_data['faculty']][context.user_data['level']]
+            keyboard = [[course] for course in courses]
+            keyboard.append(['Back', 'Main Menu'])
+            reply_markup = ReplyKeyboardMarkup(
+                keyboard,
+                one_time_keyboard=True,
+                resize_keyboard=True
+            )
+            await update.message.reply_text(
+                "Please select the course:",
+                reply_markup=reply_markup
+            )
+            return COURSE
+        except KeyError:
+            return await start(update, context)
 
     context.user_data['material_type'] = material_type
     
-    # If the material type is Cheatsheet or Past Papers, ask for exam type
     if material_type in ['Cheatsheet', 'Past Papers']:
-        keyboard = [[exam] for exam in EXAM_TYPE_DATA + ['Back', 'Main Menu']]
+        keyboard = [[exam] for exam in EXAM_TYPE_DATA]
+        keyboard.append(['Back', 'Main Menu'])
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
             f"Please select the exam type for {material_type}:",
@@ -255,19 +286,49 @@ async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         )
         return EXAM_TYPE
     else:
-        # If it's Notes or Slides, send the materials directly
+        # For Notes and Slides
         await send_material(update, context)
-        return ConversationHandler.END
+        # Stay in MATERIAL_TYPE state after sending files
+        keyboard = [
+            ['Notes'],
+            ['Slides'],
+            ['Cheatsheet'],
+            ['Past Papers'],
+            ['Back', 'Main Menu']
+        ]
+        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            "You can select another material type or go back:",
+            reply_markup=reply_markup
+        )
+        return MATERIAL_TYPE
+    
 
 async def exam_type_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Handle exam type selection and proceed to year selection for Past Papers."""
+    """Handle exam type selection and proceed accordingly."""
     exam_type = update.message.text
-    if exam_type in ['Back', 'Main Menu']:
-        return await material_choice(update, context)
+
+    if exam_type == "Main Menu":
+        return await start(update, context)
+    
+    if exam_type == "Back":
+        keyboard = [
+            ['Notes'],
+            ['Slides'],
+            ['Cheatsheet'],
+            ['Past Papers'],
+            ['Back', 'Main Menu']
+        ]
+        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            "Please select the material type:",
+            reply_markup=reply_markup
+        )
+        return MATERIAL_TYPE
+
     context.user_data['exam_type'] = exam_type
     material_type = context.user_data['material_type']
     
-    # For Past Papers, show year selection
     if material_type == 'Past Papers':
         keyboard = [[year] for year in YEAR_DATA + ['Back', 'Main Menu']]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -277,16 +338,59 @@ async def exam_type_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         )
         return YEAR
     else:
-        # For Cheatsheet, send the material directly
+        # For Cheatsheet
         await send_material(update, context)
-        return ConversationHandler.END
+        # Stay in EXAM_TYPE state after sending file
+        keyboard = [[exam] for exam in EXAM_TYPE_DATA + ['Back', 'Main Menu']]
+        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            "You can select another exam type or go back:",
+            reply_markup=reply_markup
+        )
+        return EXAM_TYPE
+
+async def year_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Handle year selection for past papers."""
+    year = update.message.text
+
+    if year == "Main Menu":
+        return await start(update, context)
+    
+    if year == "Back":
+        keyboard = [[exam] for exam in EXAM_TYPE_DATA + ['Back', 'Main Menu']]
+        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+        await update.message.reply_text(
+            f"Please select the exam type:",
+            reply_markup=reply_markup
+        )
+        return EXAM_TYPE
+
+    context.user_data['year'] = year
+    await send_material(update, context)
+    
+    # Stay in YEAR state after sending file
+    keyboard = [[y] for y in YEAR_DATA + ['Back', 'Main Menu']]
+    reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+    await update.message.reply_text(
+        "You can select another year or go back:",
+        reply_markup=reply_markup
+    )
+    return YEAR
 
 async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Send requested material and maintain proper state."""
     try:
         course = context.user_data['course']
+        print("LOGGGGGG: " + course)
         material_type = context.user_data['material_type']
-        materials = COURSE_INFO[course]['materials']
-        
+        prefix = int(course[2])
+        course_info = None
+        if 1 <= prefix <= 6:
+            course_dict = globals().get(f"COURSE_INFO_{prefix}K")
+            course_info = course_dict[course]
+            context.user_data['course'] = course
+        print(course_info)
+        materials = course_info['materials']
         # Create downloads directory if it doesn't exist
         if not os.path.exists('downloads'):
             os.makedirs('downloads')
@@ -298,8 +402,7 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 drive_links = [drive_links]
                 
             await update.message.reply_text(
-                f"Sending {len(drive_links)} {material_type.lower()}...",
-                reply_markup=ReplyKeyboardRemove()
+                f"Sending {len(drive_links)} {material_type.lower()}..."
             )
             
             for index, drive_link in enumerate(drive_links):
@@ -330,42 +433,47 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                         f"Error sending file {index+1}. You can access it directly here:\n{drive_link}"
                     )
             
-            await update.message.reply_text(
-                "All files sent! Use /start to request another material."
-            )
+            # Don't end conversation, let material_choice handle the state
+            return None
             
-        else:  # Handle both Cheatsheet and Past Papers similarly
+        else:  # Handle Cheatsheet and Past Papers
             try:
                 exam_type = context.user_data['exam_type']
                 
                 if material_type == 'Cheatsheet':
-                    drive_link = materials['Cheatsheet'][exam_type]
+                    drive_links = materials['Cheatsheet'][exam_type]
+                    
                 else:  # Past Papers
-                    year = update.message.text
-                    drive_link = materials['Past Papers'][exam_type][year]
+                    year = update.message.text if 'year' not in context.user_data else context.user_data['year']
+                    drive_links = materials['Past Papers'][exam_type][year]
                 
-                direct_link = get_direct_link(drive_link)
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"{course}_{material_type}_{exam_type}.pdf"
-                filepath = os.path.join('downloads', filename)
+                for index, drive_link in enumerate(drive_links):
+                    direct_link = get_direct_link(drive_link)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"{course}_{material_type}_{exam_type}_{timestamp}.pdf"
+                if material_type == 'Past Papers':
+                    filename = f"{course}_{material_type}_{exam_type}_{year}_{timestamp}.pdf"
                 
-                response = requests.get(direct_link)
-                if response.status_code == 200:
-                    with open(filepath, 'wb') as f:
-                        f.write(response.content)
+                    filepath = os.path.join('downloads', filename)
                     
-                    with open(filepath, 'rb') as f:
-                        await context.bot.send_document(
-                            chat_id=update.message.chat_id,
-                            document=f,
-                            filename=filename
+                    response = requests.get(direct_link)
+                    if response.status_code == 200:
+                        with open(filepath, 'wb') as f:
+                            f.write(response.content)
+                        
+                        with open(filepath, 'rb') as f:
+                            await context.bot.send_document(
+                                chat_id=update.message.chat_id,
+                                document=f,
+                                filename=filename
+                            )
+                        
+                    # Success message without ending conversation
+                        await update.message.reply_text(
+                            "Document sent successfully!"
                         )
-                    
-                    await update.message.reply_text(
-                        "Here's your document! Use /start to request another material."
-                    )
-                else:
-                    raise ValueError(f"Failed to download file: Status code {response.status_code}")
+                    else:
+                        raise ValueError(f"Failed to download file: Status code {response.status_code}")
                 
             except Exception as e:
                 logger.error(f"Error sending file: {str(e)}")
@@ -373,13 +481,23 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                     "Sorry, there was an error sending the file. "
                     "You can access it directly here:\n" + drive_link
                 )
+            
+            # Don't end conversation, let the calling function handle the state
+            return None
     
-    except KeyError:
+    except KeyError as e:
+        logger.error(f"KeyError in send_material: {str(e)}")
         await update.message.reply_text(
-            "Sorry, this material is not available. Please try another option or /start again."
+            "Sorry, this material is not available. Please try another option."
         )
+        return None
     
-    return ConversationHandler.END
+    except Exception as e:
+        logger.error(f"Unexpected error in send_material: {str(e)}")
+        await update.message.reply_text(
+            "Sorry, there was an unexpected error. Please try again."
+        )
+        return None
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancel the conversation."""
@@ -442,11 +560,10 @@ async def stop_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     )
     return
 
+# Update the conversation handler in main()
 def main() -> None:
-    """Set up and run the bot."""
     application = ApplicationBuilder().token('8122445200:AAF6Kh0kqdQyS-y-Y1wfrQ_6EsxiaiVCNVU').build()
     
-    # Updated conversation handler
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', start)],
         states={
@@ -455,7 +572,7 @@ def main() -> None:
             COURSE: [MessageHandler(filters.TEXT & ~filters.COMMAND, course_choice)],
             MATERIAL_TYPE: [MessageHandler(filters.TEXT & ~filters.COMMAND, material_choice)],
             EXAM_TYPE: [MessageHandler(filters.TEXT & ~filters.COMMAND, exam_type_choice)],
-            YEAR: [MessageHandler(filters.TEXT & ~filters.COMMAND, send_material)]
+            YEAR: [MessageHandler(filters.TEXT & ~filters.COMMAND, year_choice)]
         },
         fallbacks=[CommandHandler('cancel', cancel)]
     )
@@ -468,7 +585,6 @@ def main() -> None:
     
     print("Bot is starting...")
     application.run_polling()
-
 
 if __name__ == '__main__':
     main()
