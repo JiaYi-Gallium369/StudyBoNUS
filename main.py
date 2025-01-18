@@ -34,8 +34,8 @@ YEAR_DATA = ['EARLIER', '18/19', '19/20', '20/21', '21/22', '22/23', '23/24', 'L
 COURSES_DATA = {
     'School of Computing': {
         '1000 Level': ['CS1101S', 'CS1231S'],
-        '2000 Level': ['CS2030S', 'CS2040S'],
-        '3000 Level': ['CS3230', 'CS3243'],
+        '2000 Level': ['CS2030S', 'CS2040S', 'CS2100', 'CS2109S'],
+        '3000 Level': ['CS3230', 'CS3243', 'CS3213', 'CS3210'],
         '4000 Level': ['CS4211', 'CS4212', 'CS4215', 'CS4220'],
         '5000 Level': ['CS5231', 'CS5242', 'CS5322', 'CS5339'],
         '6000 Level': ['CS6217', 'CS6222'],

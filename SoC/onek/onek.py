@@ -1,5 +1,5 @@
 # for 1k mods
-COURSE_INFO_1K = {
+COURSE_INFO_ONE = {
     'CS1101S': {
         'description': 'Programming Methodology',
         'materials': {
