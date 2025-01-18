@@ -10,6 +10,12 @@ from telegram.ext import (
 import logging
 import requests
 from urllib.parse import urlparse
+import time
+import asyncio
+import random
+
+from brainrot import BRAIN_ROT_VIDEOS
+ 
 
 # Enable logging
 logging.basicConfig(
@@ -57,6 +63,12 @@ COURSE_INFO = {
 }
 
 NUS_MODS_WEBSITE_PREFIX = "https://nusmods.com/courses/"
+
+study_state = {
+    'studying' : False,
+    'start_time' : 0,
+    'break' : False
+}
 
 def get_direct_link(drive_link: str) -> str:
     """Convert Google Drive sharing link to direct download link."""
@@ -255,6 +267,47 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     except Exception as e:
         logger.error(f"Error in error handler: {str(e)}")
 
+async def spam_user_until_comeback(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    while study_state['break']:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"COME BACK AND STUDY! Use /lockin to disable this notification!"
+        )
+        await asyncio.sleep(3)
+
+async def user_comes_back_update(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    study_state['break'] = False
+
+async def send_study_updates(update:Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await asyncio.sleep(60)
+    while study_state['studying']:
+        video_link = random.choice(BRAIN_ROT_VIDEOS)
+        study_state['break'] = True
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"No your crush did not text you. But good job studying! Heres a video for you to relax to: {video_link}"
+        )
+        await asyncio.sleep(300)
+        asyncio.create_task(spam_user_until_comeback(update, context))
+
+        await asyncio.sleep(25*60)
+
+async def start_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    study_state['studying'] = True
+    study_state['start_time'] = time.time()
+    await update.message.reply_text(
+        "Rizzler be locking in! Get mewing sigma!"
+    )
+    asyncio.create_task(send_study_updates(update, context))
+    return
+
+async def stop_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    study_state['studying'] = False
+    await update.message.reply_text(
+        "Thats very skibidi of you :((((((("
+    )
+    return
+
 def main() -> None:
     """Set up and run the bot."""
     # Replace 'YOUR_BOT_TOKEN' with your actual bot token
@@ -275,6 +328,9 @@ def main() -> None:
     # Add handlers
     application.add_handler(conv_handler)
     application.add_error_handler(error_handler)
+    application.add_handler(CommandHandler('study', start_study_mode))
+    application.add_handler(CommandHandler('stop', stop_study_mode))
+    application.add_handler(CommandHandler('lockin', user_comes_back_update))
     
     # Start the bot
     print("Bot is starting...")
