@@ -11,6 +11,12 @@ import logging
 import requests
 import os
 from datetime import datetime
+from SoC.onek.onek import COURSE_INFO_1K
+from SoC.twok.twok import COURSE_INFO_2K
+from SoC.threek.threek import COURSE_INFO_3K
+from SoC.fourK.fourK import COURSE_INFO_4K
+from SoC.fiveK.fiveK import COURSE_INFO_5K
+from SoC.sixK.sixK import COURSE_INFO_6K
 
 # Enable logging
 logging.basicConfig(
@@ -31,60 +37,12 @@ YEAR_DATA = ['EARLIER', '18/19', '19/20', '20/21', '21/22', '22/23', '23/24', 'L
 COURSES_DATA = {
     'School of Computing': {
         '1000 Level': ['CS1101S', 'CS1231S'],
-        '2000 Level': ['CS2030S', 'CS2040S'],
-        '3000 Level': ['CS3230', 'CS3243'],
-        '4000 Level': ['CS4248', 'CS4224'],
-        '5000 Level': ['CS5228', 'CS5242'],
-        '6000 Level': ['CS6203', 'CS6215'],
+        '2000 Level': ['CS2030S', 'CS2040S', 'CS2100', 'CS2109S'],
+        '3000 Level': ['CS3230', 'CS3243', 'CS3213', 'CS3210'],
+        '4000 Level': ['CS4211', 'CS4212', 'CS4215', 'CS4220'],
+        '5000 Level': ['CS5231', 'CS5242', 'CS5322', 'CS5339'],
+        '6000 Level': ['CS6217', 'CS6222'],
         'Others': ['CFG1002', 'CS2101']
-    }
-}
-
-COURSE_INFO = {
-    'CS1101S': {
-        'description': 'Programming Methodology',
-        'materials': {
-            'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/d/midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/d/final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_midterm_paper_id/view?usp=sharing',
-                    '18/19': 'https://drive.google.com/file/2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/2018_final_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_final_paper_id/view?usp=sharing'
-                } 
-            }
-        }
-    },
-    'CS1231S': {
-        'description': 'Discrete Structures',
-        'materials': {
-            'Notes': 'https://drive.google.com/file/cs1231s_notes_id/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/cs1231s_slides_id/view?usp=sharing',
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/cs1231s_midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/cs1231s_final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_midterm_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/cs1231s_2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_final_paper_id/view?usp=sharing',
-                },
-            }
-        }
     }
 }
 
@@ -232,8 +190,16 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return LEVEL
     
     try:
-        course_info = COURSE_INFO[course_code]
-        context.user_data['course'] = course_code
+        prefix = int(course_code[2])
+        if 1 <= prefix <= 6: 
+            print(prefix)
+            course_dict = globals().get(f"COURSE_INFO_{prefix}K")
+            print(course_dict)
+            print(course_code)
+            if course_code in course_dict:
+                course_info = course_dict[course_code]
+                print(course_info)
+                context.user_data['course'] = course_code
         
         keyboard = [
             ['Notes'],
@@ -399,9 +365,16 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     """Send requested material and maintain proper state."""
     try:
         course = context.user_data['course']
+        print("LOGGGGGG: " + course)
         material_type = context.user_data['material_type']
-        materials = COURSE_INFO[course]['materials']
-        
+        prefix = int(course[2])
+        course_info = None
+        if 1 <= prefix <= 6:
+            course_dict = globals().get(f"COURSE_INFO_{prefix}K")
+            course_info = course_dict[course]
+            context.user_data['course'] = course
+        print(course_info)
+        materials = course_info['materials']
         # Create downloads directory if it doesn't exist
         if not os.path.exists('downloads'):
             os.makedirs('downloads')
@@ -452,37 +425,39 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 exam_type = context.user_data['exam_type']
                 
                 if material_type == 'Cheatsheet':
-                    drive_link = materials['Cheatsheet'][exam_type]
+                    drive_links = materials['Cheatsheet'][exam_type]
+                    
                 else:  # Past Papers
                     year = update.message.text if 'year' not in context.user_data else context.user_data['year']
-                    drive_link = materials['Past Papers'][exam_type][year]
+                    drive_links = materials['Past Papers'][exam_type][year]
                 
-                direct_link = get_direct_link(drive_link)
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"{course}_{material_type}_{exam_type}_{timestamp}.pdf"
+                for index, drive_link in enumerate(drive_links):
+                    direct_link = get_direct_link(drive_link)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"{course}_{material_type}_{exam_type}_{timestamp}.pdf"
                 if material_type == 'Past Papers':
                     filename = f"{course}_{material_type}_{exam_type}_{year}_{timestamp}.pdf"
                 
-                filepath = os.path.join('downloads', filename)
-                
-                response = requests.get(direct_link)
-                if response.status_code == 200:
-                    with open(filepath, 'wb') as f:
-                        f.write(response.content)
+                    filepath = os.path.join('downloads', filename)
                     
-                    with open(filepath, 'rb') as f:
-                        await context.bot.send_document(
-                            chat_id=update.message.chat_id,
-                            document=f,
-                            filename=filename
-                        )
-                    
+                    response = requests.get(direct_link)
+                    if response.status_code == 200:
+                        with open(filepath, 'wb') as f:
+                            f.write(response.content)
+                        
+                        with open(filepath, 'rb') as f:
+                            await context.bot.send_document(
+                                chat_id=update.message.chat_id,
+                                document=f,
+                                filename=filename
+                            )
+                        
                     # Success message without ending conversation
-                    await update.message.reply_text(
-                        "Document sent successfully!"
-                    )
-                else:
-                    raise ValueError(f"Failed to download file: Status code {response.status_code}")
+                        await update.message.reply_text(
+                            "Document sent successfully!"
+                        )
+                    else:
+                        raise ValueError(f"Failed to download file: Status code {response.status_code}")
                 
             except Exception as e:
                 logger.error(f"Error sending file: {str(e)}")
