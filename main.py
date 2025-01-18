@@ -8,7 +8,8 @@ from telegram.ext import (
     filters,
 )
 import logging
-from pathlib import Path
+import requests
+from urllib.parse import urlparse
 
 # Enable logging
 logging.basicConfig(
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 # States
 FACULTY, LEVEL, COURSE, MATERIAL_TYPE = range(4)
 
-# Sample course data structure
+# Sample course data structure with Google Drive links
 COURSES_DATA = {
     'School of Computing': {
         '1000 Level': ['CS1101S', 'CS1231S'],
@@ -39,23 +40,39 @@ COURSE_INFO = {
         'description': 'Programming Methodology',
         'link': 'http://dummy.com/cs1101s',
         'materials': {
-            'Notes': 'path/to/cs1101s/notes.pdf',
-            'Slides': 'path/to/cs1101s/slides.pdf',
-            'Cheatsheet': 'path/to/cs1101s/cheatsheet.pdf',
-            'Past Papers': 'path/to/cs1101s/past_papers.pdf'
+            'Notes': 'https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing',
+            'Slides': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
+            'Cheatsheet': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
+            'Past Papers': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'
         }
     },
     'CS1231S': {
         'description': 'Discrete Structures',
         'link': 'http://dummy.com/cs1231s',
         'materials': {
-            'Notes': 'path/to/cs1231s/notes.pdf',
-            'Slides': 'path/to/cs1231s/slides.pdf',
-            'Cheatsheet': 'path/to/cs1231s/cheatsheet.pdf',
-            'Past Papers': 'path/to/cs1231s/past_papers.pdf'
+            'Notes': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
+            'Slides': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
+            'Cheatsheet': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing',
+            'Past Papers': 'https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'
         }
     }
 }
+
+def get_direct_link(drive_link: str) -> str:
+    """Convert Google Drive sharing link to direct download link."""
+    file_id = None
+    
+    # Extract file ID from various Google Drive link formats
+    if 'drive.google.com' in drive_link:
+        if '/file/d/' in drive_link:
+            file_id = drive_link.split('/file/d/')[1].split('/')[0]
+        elif 'id=' in drive_link:
+            file_id = drive_link.split('id=')[1].split('&')[0]
+    
+    if not file_id:
+        raise ValueError("Invalid Google Drive link format")
+    
+    return f"https://drive.google.com/uc?export=download&id={file_id}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Start the conversation and ask user to select faculty."""
@@ -164,35 +181,53 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return ConversationHandler.END
 
 async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """Send the requested material and end the conversation."""
+    """Send the requested material from Google Drive link."""
     try:
         material_type = update.message.text
         course = context.user_data['course']
-        file_path = Path(COURSE_INFO[course]['materials'][material_type])
+        drive_link = COURSE_INFO[course]['materials'][material_type]
         
         await update.message.reply_text(
-            f"Sending {material_type} for {course}...",
+            f"Retrieving {material_type} for {course}...",
             reply_markup=ReplyKeyboardRemove()
         )
         
-        if file_path.exists():
-            await context.bot.send_document(
-                chat_id=update.message.chat_id,
-                document=file_path.open('rb'),
-                filename=f"{course}_{material_type}.pdf"
-            )
+        try:
+            # Get direct download link
+            direct_link = get_direct_link(drive_link)
+            
+            # Download the file first
+            response = requests.get(direct_link)
+            if response.status_code == 200:
+                # Send document using the downloaded content
+                await context.bot.send_document(
+                    chat_id=update.message.chat_id,
+                    document=response.content,  # Send the actual file content
+                    filename=f"{course}_{material_type}.pdf"
+                )
+                
+                await update.message.reply_text(
+                    "Here's your document! Use /start to request another material."
+                )
+            else:
+                raise ValueError(f"Failed to download file: Status code {response.status_code}")
+            
+        except ValueError as e:
             await update.message.reply_text(
-                "Here's your document! Use /start to request another material."
-            )
-        else:
-            await update.message.reply_text(
-                "Sorry, this file is currently unavailable. Please try again later or contact support."
+                "Sorry, there seems to be an issue with the file link. "
+                "Here's the direct link instead:\n" + drive_link
             )
             
-    except Exception as e:
-        logger.error(f"Error sending file: {str(e)}")
+        except Exception as e:
+            logger.error(f"Error sending file: {str(e)}")
+            await update.message.reply_text(
+                "Sorry, there was an error sending the file. "
+                "You can access it directly here:\n" + drive_link
+            )
+            
+    except KeyError:
         await update.message.reply_text(
-            "Sorry, there was an error sending the file. Please try again later."
+            "Sorry, this material is not available. Please try another option or /start again."
         )
     
     return ConversationHandler.END
@@ -219,6 +254,7 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 def main() -> None:
     """Set up and run the bot."""
+    # Replace 'YOUR_BOT_TOKEN' with your actual bot token
     application = ApplicationBuilder().token('8122445200:AAF6Kh0kqdQyS-y-Y1wfrQ_6EsxiaiVCNVU').build()
     
     # Set up conversation handler
