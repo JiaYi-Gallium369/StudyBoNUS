@@ -9,7 +9,6 @@ BRAIN_ROT_VIDEOS = [
 "https://www.youtube.com/watch?v=WePNs-G7puA",
 "https://www.youtube.com/watch?v=emL4LESttVo",
 "https://www.youtube.com/watch?v=8yrHqBATbfg",
-"https://www.youtube.com/watch?v=hEZoGQsxzaA",
 "https://www.youtube.com/watch?v=ObhmrE6FyNs",
 "https://www.youtube.com/watch?v=tMV2oE0BjUo"
 ]
