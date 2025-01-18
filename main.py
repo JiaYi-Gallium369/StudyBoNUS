@@ -293,33 +293,35 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                 exam_type = context.user_data['exam_type']
                 
                 if material_type == 'Cheatsheet':
-                    drive_link = materials['Cheatsheet'][exam_type]
+                    drive_links = materials['Cheatsheet'][exam_type]
+                    
                 else:  # Past Papers
                     year = update.message.text
-                    drive_link = materials['Past Papers'][exam_type][year]
+                    drive_links = materials['Past Papers'][exam_type][year]
                 
-                direct_link = get_direct_link(drive_link)
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"{course}_{material_type}_{exam_type}.pdf"
-                filepath = os.path.join('downloads', filename)
-                
-                response = requests.get(direct_link)
-                if response.status_code == 200:
-                    with open(filepath, 'wb') as f:
-                        f.write(response.content)
+                for index, drive_link in enumerate(drive_links):
+                    direct_link = get_direct_link(drive_link)
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"{course}_{material_type}_{exam_type}.pdf"
+                    filepath = os.path.join('downloads', filename)
                     
-                    with open(filepath, 'rb') as f:
-                        await context.bot.send_document(
-                            chat_id=update.message.chat_id,
-                            document=f,
-                            filename=filename
+                    response = requests.get(direct_link)
+                    if response.status_code == 200:
+                        with open(filepath, 'wb') as f:
+                            f.write(response.content)
+                        
+                        with open(filepath, 'rb') as f:
+                            await context.bot.send_document(
+                                chat_id=update.message.chat_id,
+                                document=f,
+                                filename=filename
+                            )
+                        
+                        await update.message.reply_text(
+                            "Here's your document! Use /start to request another material."
                         )
-                    
-                    await update.message.reply_text(
-                        "Here's your document! Use /start to request another material."
-                    )
-                else:
-                    raise ValueError(f"Failed to download file: Status code {response.status_code}")
+                    else:
+                        raise ValueError(f"Failed to download file: Status code {response.status_code}")
                 
             except Exception as e:
                 logger.error(f"Error sending file: {str(e)}")
