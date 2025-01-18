@@ -11,6 +11,9 @@ import logging
 import requests
 import os
 from datetime import datetime
+from SoC.onek.onek import COURSE_INFO_1K
+from SoC.twok.twok import COURSE_INFO_2K
+from SoC.threek.threek import COURSE_INFO_3K
 from SoC.fourK.fourK import COURSE_INFO_4K
 from SoC.fiveK.fiveK import COURSE_INFO_5K
 from SoC.sixK.sixK import COURSE_INFO_6K
