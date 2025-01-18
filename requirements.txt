@@ -4,10 +4,10 @@ cachetools==4.2.2
 certifi==2024.12.14
 h11==0.14.0
 httpcore==1.0.7
-httpx==0.28.1
+httpx==0.25.2
 idna==3.10
 python-dotenv==1.0.1
-python-telegram-bot==13.12
+python-telegram-bot==20.7
 pytz==2024.2
 setuptools==75.8.0
 six==1.17.0
