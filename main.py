@@ -38,7 +38,6 @@ COURSES_DATA = {
 COURSE_INFO = {
     'CS1101S': {
         'description': 'Programming Methodology',
-        'link': 'http://dummy.com/cs1101s',
         'materials': {
             'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
             'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
@@ -48,7 +47,6 @@ COURSE_INFO = {
     },
     'CS1231S': {
         'description': 'Discrete Structures',
-        'link': 'http://dummy.com/cs1231s',
         'materials': {
             'Notes': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
             'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
