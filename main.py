@@ -56,6 +56,15 @@ COURSES_DATA = {
     }
 }
 
+COMMANDS = {
+    '/start': 'Starts the bot and lets you choose courses',
+    '/help': 'Shows this help message',
+    '/study': 'Begins the study session',
+    '/stop': 'Terminates the study session',
+    '/lockin' : 'Try it then u know',
+}
+
+
 NUS_MODS_WEBSITE_PREFIX = "https://nusmods.com/courses/"
 
 study_state = {
@@ -92,7 +101,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     
     await update.message.reply_text(
-        "Welcome to NUS Course Materials Bot!\n"
+        "Welcome to NUS Course Materials Bot! :3\n"
+        "For more commands, type /help to learn more uwu slayyyyyy\n"
         "Please select your faculty:",
         reply_markup=reply_markup
     )
@@ -560,6 +570,14 @@ async def stop_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     )
     return
 
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    help_text = "Here are the commands you can use:\n\n" + "\n".join(
+        f"{cmd} - {desc}" for cmd, desc in COMMANDS.items()
+    )
+    await update.message.reply_text(help_text)
+    return 
+
+
 # Update the conversation handler in main()
 def main() -> None:
     application = ApplicationBuilder().token('8122445200:AAF6Kh0kqdQyS-y-Y1wfrQ_6EsxiaiVCNVU').build()
@@ -582,6 +600,7 @@ def main() -> None:
     application.add_handler(CommandHandler('study', start_study_mode))
     application.add_handler(CommandHandler('stop', stop_study_mode))
     application.add_handler(CommandHandler('lockin', user_comes_back_update))
+    application.add_handler(CommandHandler('help', help_command))
     
     print("Bot is starting...")
     application.run_polling()
