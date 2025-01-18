@@ -1,33 +1,31 @@
 # for 2k mods
 COURSE_INFO_2K = {
-    'CS1101S': {
-        'description': 'Programming Methodology',
+    'CS2040S': {
+        'description': 'Data Structures and Algorithms',
         'materials': {
-            'Notes': ['https://drive.google.com/file/d/1373e_2oDvZuMHOUqP59tpIJ1R-iBiNdx/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/1213GLuXlTL0jPZLSpECZtVaH6rVcqwtK/view?usp=sharing', 'https://drive.google.com/file/d/12-LMHTvqDM2nKyPvP9kgWeqW6TFJ2Bhc/view?usp=sharing'],
+            'Notes': ['https://drive.google.com/file/d/1Hshia3j2-wxWPve6pA-v8YWDEqakTSYt/view?usp=sharing', 'https://drive.google.com/file/d/1HnoKcaYNHQpsuhYRmkUewGhfHnxQReV7/view?usp=sharing'],
+            'Slides': ['https://drive.google.com/file/d/1Hshia3j2-wxWPve6pA-v8YWDEqakTSYt/view?usp=sharing', 'https://drive.google.com/file/d/1HnoKcaYNHQpsuhYRmkUewGhfHnxQReV7/view?usp=sharing'],
             'Cheatsheet': {
                 'Midterm': 'https://drive.google.com/file/d/1CUb-ufwrGKW-vg0mu06l-fS2fo4M35nf/view?usp=sharing',
                 'Final': 'https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'
             },
             'Past Papers': {
                 'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_midterm_paper_id/view?usp=sharing',
-                    '18/19': ['https://drive.google.com/file/d/1J5Qk_K55QGiVh1WhUKYmjD4RiSXMlj31/view?usp=sharing', 'https://drive.google.com/file/d/1B-OIaohj0g8k-lM_rMdW_jpHcwtIMdsa/view?usp=sharing'],
-                    '19/20': ['https://drive.google.com/file/d/1wJSRqrnWPjeXqCHK4Xx-P1gq6sdEZlCC/view?usp=sharing', 'https://drive.google.com/file/d/1XkmojZ4CtUpdyLCNzYy50DIW0SePGl70/view?usp=sharing'],
-                    '20/21': ['https://drive.google.com/file/d/1Oe8swsBnReSCL3khGaNVxKKxwRP83zfz/view?usp=sharing', 'https://drive.google.com/file/d/1mAtLy3NNBCgEmuVDLUrMKbyPyuCSXJJP/view?usp=sharing']
+                    'EARLIER': 'https://drive.google.com/file/d/1wjt1IOwyDctt4hKrCSccKt2LWTtDf__A/view?usp=sharing',
+                    '20/21': ['https://drive.google.com/file/d/1wjt1IOwyDctt4hKrCSccKt2LWTtDf__A/view?usp=sharing']
                 },
                 'Final': {
                     'EARLIER': 'https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing',
-                    '19/20': ['https://drive.google.com/file/d/1coEzmOL4N7HCYPsWWwxjOpTPtUMGzaDI/view?usp=sharing', 'https://drive.google.com/file/d/1zNTv5aczZueOP7JCBf-GIrC21DLxlzfJ/view?usp=sharing'],
-                    '20/21': ['https://drive.google.com/file/d/1K6WHsdztStb212Tj8gkOUtJAlQJmHztL/view?usp=sharing', 'https://drive.google.com/file/d/1qrU4oGVQ1s9ZsudrGz4SQiJ8E5u1ORNI/view?usp=sharing']
+                    '20/21': ['https://drive.google.com/file/d/1IjEfMnw9cZLK0B0pBMZz02BHlB8yp-WN/view?usp=sharing'],
+                    '21/22': ['https://drive.google.com/file/d/1IWHJ4BPoX-4wl9UAVvDC3dZ5bixc1fqE/view?usp=sharing']
                 }
             }
     },
-    'CS1231S': {
-        'description': 'Discrete Structures',
+    'CS2030S': {
+        'description': 'Programming Methodology II',
         'materials': {
-            'Notes': 'https://drive.google.com/file/d/1eCDBd9u__fB-FaVfY92TwNCgf76zujvK/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/d/1yUw-Ev5NyxUxyuSupdvuyYtD82Psl2qa/view?usp=sharing',
+            'Notes': 'https://drive.google.com/file/d/18uiFVtDQuigHgv1mNgakIhvcUEdNEPzS/view?usp=sharing',
+            'Slides': ['https://drive.google.com/file/d/1UPg0t6TYlv1M4uqJOlpJlrW8InPHBr6N/view?usp=sharing', 'https://drive.google.com/file/d/18cLo_XXdYLbonhTn1ZrhW7DtvMjVWk_2/view?usp=sharing']
             'Cheatsheet': {
                 'Midterm': [],
                 'Final': []
@@ -35,12 +33,76 @@ COURSE_INFO_2K = {
             'Past Papers': {
                 'Midterm': {
                     'EARLIER': 'https://drive.google.com/file/d/1373e_2oDvZuMHOUqP59tpIJ1R-iBiNdx/view?usp=sharing',
-                    '19/20': 'https://drive.google.com/file/d/1YB4nMjdxqdIHfb5sAi3W34zKQI7ngLzd/view?usp=sharing',
-                    '20/21': 'https://drive.google.com/file/d/1g3UiIlL6owyzQaT3dW1FpJMzqSzk0E5Z/view?usp=sharing'
+                    '19/20': 'https://drive.google.com/file/d/1v6lAY1kpgXsUFHV3siwYu50lv09KhfK3/view?usp=sharing',
+                    '20/21': 'https://drive.google.com/file/d/189IOYPfFtPJtF8U0sDhp-e4SlOI1LSt2/view?usp=sharing',
+                    '22/23': 'https://drive.google.com/file/d/1kMHPYY4J93KvfGvruRFDKz7oDl0ydcnj/view?usp=sharing',
+                    '23/24': 'https://drive.google.com/file/d/1kTqKNopN00HDQUaRcObyuHufrxLLVfqf/view?usp=sharing'
                 },
                 'Final': {
-                    'EARLIER': 'https://drive.google.com/file/d/1373e_2oDvZuMHOUqP59tpIJ1R-iBiNdx/view?usp=sharing',
-                    '18/19': 'https://drive.google.com/file/d/1uPw7OTsW-j5QiCCTcBpwWB8jX8avb0d_/view?usp=sharing',
+                    'EARLIER': 'https://drive.google.com/file/d/1RTQzs9DpwpaCo9NrKA9py5GnM78-tD_u/view?usp=sharing',
+                    '20/21': 'https://drive.google.com/file/d/1plDU4peEgltt8Rd6xjVSNWPSZuq9LvZy/view?usp=sharing',
+                },
+            }
+        }
+    }
+    'CS2100': {
+        'description': 'Computer Organisation',
+        'materials': {
+            'Notes': 'https://drive.google.com/file/d/18uiFVtDQuigHgv1mNgakIhvcUEdNEPzS/view?usp=sharing',
+            'Slides': ['https://drive.google.com/file/d/13gwz8qD-vpLdbV5kUbFAe6lprwgRuNYA/view?usp=sharing', 'https://drive.google.com/file/d/1b83kb79UPq6bFPcRamdGCn0M8w0CmPDf/view?usp=sharing']
+            'Cheatsheet': {
+                'Midterm': [],
+                'Final': []
+            },
+            'Past Papers': {
+                'Midterm': {
+                    'EARLIER': 'https://drive.google.com/file/d/1tuV7rEh5CVTATtfJhqCIpRI9KgTV4qsa/view?usp=sharing',
+                    '20/21': 'https://drive.google.com/file/d/1wwFkgfT7o_uXVGYDw202EZu310zhqUnk/view?usp=sharing',
+
+                },
+                'Final': {
+                    'EARLIER': ['https://drive.google.com/file/d/1ZDdxFMl5BE0q4YttRv7vRGvJGRZWXX_x/view?usp=sharing', 'https://drive.google.com/file/d/1ak08IrazQZoo_QcpyYduOADM-syTzOtv/view?usp=sharing']
+                    '20/21': 'https://drive.google.com/file/d/145-78XKPW6f_ZLnRth9l8IErRU5MWeUS/view?usp=sharing',
+                },
+            }
+        }
+    }
+    'CS2106': {
+        'description': 'Introduction to Operating Systems',
+        'materials': {
+            'Notes': '',
+            'Slides': []
+            'Cheatsheet': {
+                'Midterm': [],
+                'Final': []
+            },
+            'Past Papers': {
+                'Midterm': {
+
+
+                },
+                'Final': {
+
+                },
+            }
+        }
+    }
+    'CS2109S': {
+        'description': 'Introduction to AI and Machine Learning',
+        'materials': {
+            'Notes': '',
+            'Slides': []
+            'Cheatsheet': {
+                'Midterm': [],
+                'Final': []
+            },
+            'Past Papers': {
+                'Midterm': {
+
+
+                },
+                'Final': {
+
                 },
             }
         }
