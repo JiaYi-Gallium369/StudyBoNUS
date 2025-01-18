@@ -3,76 +3,132 @@ COURSE_INFO_3K = {
     'CS3230': {
         'description': 'Design and Analysis of Algorithms',
         'materials': {
-            'Notes': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
+            'Notes': [],
+            'Slides': [],
             'Cheatsheet': {
-                'Midterm': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-                'Final': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
-                'Midterm':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
-                'Final':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
+                'Midterm': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
+                'Final': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
             }
         }
     },
     'CS3243': {
         'description': 'Introduction to Artificial Intelligence',
         'materials': {
-            'Notes': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
+            'Notes': [],
+            'Slides': [],
             'Cheatsheet': {
-                'Midterm': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-                'Final': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
-                'Midterm':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
-                'Final':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
+                'Midterm': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
+                'Final': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
             }
         }
     },
     'CS3213': {
         'description': 'Foundations of Software Engineering',
         'materials': {
-            'Notes': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
+            'Notes': [],
+            'Slides': [],
             'Cheatsheet': {
-                'Midterm': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-                'Final': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
-                'Midterm':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
-                'Final':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
+                'Midterm': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
+                'Final': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
             }
         }
     },
     'CS3210': {
         'description': 'Parallel Computing',
         'materials': {
-            'Notes': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
+            'Notes': [],
+            'Slides': [],
             'Cheatsheet': {
-                'Midterm': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-                'Final': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
-                'Midterm':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
-                'Final':
-                    ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
-                ,
+                'Midterm': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
+                'Final': {
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
+                },
             }
         }
     }

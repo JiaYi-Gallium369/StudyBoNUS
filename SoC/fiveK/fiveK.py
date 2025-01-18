@@ -1,4 +1,3 @@
-NO_NOTES = 'https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'
 COURSE_INFO_5K = {
     'CS5231': {
         'description': 'Systems Security',
@@ -8,16 +7,29 @@ COURSE_INFO_5K = {
                        'https://drive.google.com/file/d/1ENp7eif2KOE7HU_VDQcCzsaB84Lj2VSr/view?usp=sharing',
                        'https://drive.google.com/file/d/1JW2JJfPCmexbHWMDspNXTza7il_GnoMv/view?usp=sharing'],
             'Cheatsheet': {
-                'Midterm': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
-                'Final': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing']
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
                 'Midterm': {
                     'EARLIER': ['https://drive.google.com/file/d/1lf6KzHmyHqgbdO6OTE1OuXmFPX-QN_y3/view?usp=sharing'],
-                    '20/21': ['https://drive.google.com/file/d/184TJtUi0N4mR8FXufQvpd-n17b0PYJSP/view?usp=sharing'],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
                 'Final': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 } 
             }
         }
@@ -29,15 +41,29 @@ COURSE_INFO_5K = {
             'Slides': ['https://drive.google.com/file/d/1LOck-QEVF_XPkTDverHwK_68ZO-OA0RA/view?usp=sharing',
                        'https://drive.google.com/file/d/1RTP_Uqd_aPg5c8nSaj-yAN-ni22v8I4y/view?usp=sharing'],
             'Cheatsheet': {
-                'Midterm': [NO_NOTES],
-                'Final': [NO_NOTES]
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
                 'Midterm': {
                     'EARLIER': ['https://drive.google.com/file/d/19Xll0Ks5KHoV65UGFqxC_X8yIdMU87zg/view?usp=sharing'],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
                 'Final': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
             }
         }
@@ -45,20 +71,34 @@ COURSE_INFO_5K = {
         'CS5322': {
         'description': 'Database Security',
         'materials': {
-            'Notes': [NO_NOTES],
+            'Notes': [],
             'Slides': ['https://drive.google.com/file/d/11v7ARmTOiyMSZw9SeTDdDh1Ex-LChB4-/view?usp=sharing', 
                        'https://drive.google.com/file/d/11qgYC8VNo1LxLIJagGskzPqJG3YKNd-U/view?usp=sharing',
                        'https://drive.google.com/file/d/11wsm08bUZWIL5LFBCKTd7B00_GHStQQY/view?usp=sharing'],
             'Cheatsheet': {
-                'Midterm': [NO_NOTES],
-                'Final': [NO_NOTES]
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
                 'Midterm': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
                 'Final': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 } 
             }
         }
@@ -71,15 +111,29 @@ COURSE_INFO_5K = {
                       'https://drive.google.com/file/d/1V8dfnwHjgu-SXv1f9CX464t4jYg0dan5/view?usp=sharing'],
             'Slides': ['https://drive.google.com/file/d/11Dwz7RJi_GRRKyw4yXfLo3s8gOqunrQ6/view?usp=sharing'],
             'Cheatsheet': {
-                'Midterm': [NO_NOTES],
-                'Final': [NO_NOTES]
+                'Midterm': [],
+                'Final': []
             },
             'Past Papers': {
                 'Midterm': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
                 'Final': {
-                    'EARLIER': [NO_NOTES],
+                    'EARLIER': [],
+                    '18/19': [],
+                    '19/20': [],
+                    '20/21': [],
+                    '21/22': [],
+                    '22/23': [],
+                    '23/24': [],
+                    'LATEST': []
                 },
             }
         }
