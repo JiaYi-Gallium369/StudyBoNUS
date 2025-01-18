@@ -11,6 +11,7 @@ import logging
 import requests
 import os
 from datetime import datetime
+from SoC.twok.twok import COURSE_INFO
 
 # Enable logging
 logging.basicConfig(
@@ -31,7 +32,7 @@ YEAR_DATA = ['EARLIER', '18/19', '19/20', '20/21', '21/22', '22/23', '23/24', 'L
 COURSES_DATA = {
     'School of Computing': {
         '1000 Level': ['CS1101S', 'CS1231S'],
-        '2000 Level': ['CS2030S', 'CS2040S'],
+        '2000 Level': ['CS2030S', 'CS2040S', 'CS2100', 'CS2109S'],
         '3000 Level': ['CS3230', 'CS3243'],
         '4000 Level': ['CS4248', 'CS4224'],
         '5000 Level': ['CS5228', 'CS5242'],
@@ -40,53 +41,53 @@ COURSES_DATA = {
     }
 }
 
-COURSE_INFO = {
-    'CS1101S': {
-        'description': 'Programming Methodology',
-        'materials': {
-            'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
-            'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/d/midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/d/final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_midterm_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/2018_final_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/2019_final_paper_id/view?usp=sharing'
-                } 
-            }
-        }
-    },
-    'CS1231S': {
-        'description': 'Discrete Structures',
-        'materials': {
-            'Notes': 'https://drive.google.com/file/cs1231s_notes_id/view?usp=sharing',
-            'Slides': 'https://drive.google.com/file/cs1231s_slides_id/view?usp=sharing',
-            'Cheatsheet': {
-                'Midterm': 'https://drive.google.com/file/cs1231s_midterm_cheatsheet_id/view?usp=sharing',
-                'Final': 'https://drive.google.com/file/cs1231s_final_cheatsheet_id/view?usp=sharing'
-            },
-            'Past Papers': {
-                'Midterm': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_midterm_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_midterm_paper_id/view?usp=sharing',
-                    '2019': 'https://drive.google.com/file/cs1231s_2019_midterm_paper_id/view?usp=sharing'
-                },
-                'Final': {
-                    'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_final_paper_id/view?usp=sharing',
-                    '2018': 'https://drive.google.com/file/cs1231s_2018_final_paper_id/view?usp=sharing',
-                },
-            }
-        }
-    }
-}
+# COURSE_INFO = {
+#     'CS1101S': {
+#         'description': 'Programming Methodology',
+#         'materials': {
+#             'Notes': ['https://drive.google.com/file/d/1cY6yrE8o6Io-w8ufLQgT2Nt7Um9PWkxp/view?usp=sharing', 'https://drive.google.com/file/d/1QObuhkqEsSjv72KrmoSzI3pKM0SRCR2q/view?usp=sharing'],
+#             'Slides': ['https://drive.google.com/file/d/your_file_id_here/view?usp=sharing'],
+#             'Cheatsheet': {
+#                 'Midterm': 'https://drive.google.com/file/d/midterm_cheatsheet_id/view?usp=sharing',
+#                 'Final': 'https://drive.google.com/file/d/final_cheatsheet_id/view?usp=sharing'
+#             },
+#             'Past Papers': {
+#                 'Midterm': {
+#                     'EARLIER': 'https://drive.google.com/file/earlier_midterm_paper_id/view?usp=sharing',
+#                     '2018': 'https://drive.google.com/file/2018_midterm_paper_id/view?usp=sharing',
+#                     '2019': 'https://drive.google.com/file/2019_midterm_paper_id/view?usp=sharing'
+#                 },
+#                 'Final': {
+#                     'EARLIER': 'https://drive.google.com/file/earlier_final_paper_id/view?usp=sharing',
+#                     '2018': 'https://drive.google.com/file/2018_final_paper_id/view?usp=sharing',
+#                     '2019': 'https://drive.google.com/file/2019_final_paper_id/view?usp=sharing'
+#                 }
+#             }
+#         }
+#     },
+#     'CS1231S': {
+#         'description': 'Discrete Structures',
+#         'materials': {
+#             'Notes': 'https://drive.google.com/file/cs1231s_notes_id/view?usp=sharing',
+#             'Slides': 'https://drive.google.com/file/cs1231s_slides_id/view?usp=sharing',
+#             'Cheatsheet': {
+#                 'Midterm': 'https://drive.google.com/file/cs1231s_midterm_cheatsheet_id/view?usp=sharing',
+#                 'Final': 'https://drive.google.com/file/cs1231s_final_cheatsheet_id/view?usp=sharing'
+#             },
+#             'Past Papers': {
+#                 'Midterm': {
+#                     'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_midterm_paper_id/view?usp=sharing',
+#                     '2018': 'https://drive.google.com/file/cs1231s_2018_midterm_paper_id/view?usp=sharing',
+#                     '2019': 'https://drive.google.com/file/cs1231s_2019_midterm_paper_id/view?usp=sharing'
+#                 },
+#                 'Final': {
+#                     'EARLIER': 'https://drive.google.com/file/cs1231s_earlier_final_paper_id/view?usp=sharing',
+#                     '2018': 'https://drive.google.com/file/cs1231s_2018_final_paper_id/view?usp=sharing',
+#                 },
+#             }
+#         }
+#     }
+# }
 
 NUS_MODS_WEBSITE_PREFIX = "https://nusmods.com/courses/"
 
