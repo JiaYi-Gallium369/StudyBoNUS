@@ -46,3 +46,4 @@ COURSE_INFO_1K = {
         }
     }
 }
+}

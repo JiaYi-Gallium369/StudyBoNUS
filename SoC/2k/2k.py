@@ -20,12 +20,12 @@ COURSE_INFO_2K = {
                     '21/22': ['https://drive.google.com/file/d/1IWHJ4BPoX-4wl9UAVvDC3dZ5bixc1fqE/view?usp=sharing']
                 }
             }
-    },
+    }},
     'CS2030S': {
         'description': 'Programming Methodology II',
         'materials': {
             'Notes': 'https://drive.google.com/file/d/18uiFVtDQuigHgv1mNgakIhvcUEdNEPzS/view?usp=sharing',
-            'Slides': ['https://drive.google.com/file/d/1UPg0t6TYlv1M4uqJOlpJlrW8InPHBr6N/view?usp=sharing', 'https://drive.google.com/file/d/18cLo_XXdYLbonhTn1ZrhW7DtvMjVWk_2/view?usp=sharing']
+            'Slides': ['https://drive.google.com/file/d/1UPg0t6TYlv1M4uqJOlpJlrW8InPHBr6N/view?usp=sharing', 'https://drive.google.com/file/d/18cLo_XXdYLbonhTn1ZrhW7DtvMjVWk_2/view?usp=sharing'],
             'Cheatsheet': {
                 'Midterm': [],
                 'Final': []
@@ -44,12 +44,12 @@ COURSE_INFO_2K = {
                 },
             }
         }
-    }
+    },
     'CS2100': {
         'description': 'Computer Organisation',
         'materials': {
             'Notes': 'https://drive.google.com/file/d/18uiFVtDQuigHgv1mNgakIhvcUEdNEPzS/view?usp=sharing',
-            'Slides': ['https://drive.google.com/file/d/13gwz8qD-vpLdbV5kUbFAe6lprwgRuNYA/view?usp=sharing', 'https://drive.google.com/file/d/1b83kb79UPq6bFPcRamdGCn0M8w0CmPDf/view?usp=sharing']
+            'Slides': ['https://drive.google.com/file/d/13gwz8qD-vpLdbV5kUbFAe6lprwgRuNYA/view?usp=sharing', 'https://drive.google.com/file/d/1b83kb79UPq6bFPcRamdGCn0M8w0CmPDf/view?usp=sharing'],
             'Cheatsheet': {
                 'Midterm': [],
                 'Final': []
@@ -61,17 +61,17 @@ COURSE_INFO_2K = {
 
                 },
                 'Final': {
-                    'EARLIER': ['https://drive.google.com/file/d/1ZDdxFMl5BE0q4YttRv7vRGvJGRZWXX_x/view?usp=sharing', 'https://drive.google.com/file/d/1ak08IrazQZoo_QcpyYduOADM-syTzOtv/view?usp=sharing']
+                    'EARLIER': ['https://drive.google.com/file/d/1ZDdxFMl5BE0q4YttRv7vRGvJGRZWXX_x/view?usp=sharing', 'https://drive.google.com/file/d/1ak08IrazQZoo_QcpyYduOADM-syTzOtv/view?usp=sharing'],
                     '20/21': 'https://drive.google.com/file/d/145-78XKPW6f_ZLnRth9l8IErRU5MWeUS/view?usp=sharing',
                 },
             }
         }
-    }
+    },
     'CS2106': {
         'description': 'Introduction to Operating Systems',
         'materials': {
             'Notes': '',
-            'Slides': []
+            'Slides': [],
             'Cheatsheet': {
                 'Midterm': [],
                 'Final': []
@@ -86,12 +86,12 @@ COURSE_INFO_2K = {
                 },
             }
         }
-    }
+    },
     'CS2109S': {
         'description': 'Introduction to AI and Machine Learning',
         'materials': {
             'Notes': '',
-            'Slides': []
+            'Slides': [],
             'Cheatsheet': {
                 'Midterm': [],
                 'Final': []
