@@ -14,8 +14,7 @@ TELEGRAM_BOT_TOKEN = "8122445200:AAF6Kh0kqdQyS-y-Y1wfrQ_6EsxiaiVCNVU"
 
 def start(update: Update, context: CallbackContext) -> None:
     keyboard = [
-    ["A", "B"],
-    ["C", "D"]
+    ["SoC", "UPCOMING"]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     update.message.reply_text("Choose an option: ", reply_markup=reply_markup)
