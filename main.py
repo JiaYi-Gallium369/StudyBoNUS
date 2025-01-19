@@ -300,7 +300,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         
         message_text = (
             f"Course: {course_code}\n"
-            f"Description: {course_info['description']}\n"
+            f"Course Title: {course_info['description']}\n"
             f"Course Link: {NUS_MODS_WEBSITE_PREFIX + course_code}\n\n"
             "Ayo, time to choose your weapon! What’s your material type? 🔥👀"
         )
