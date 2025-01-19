@@ -62,6 +62,7 @@ COMMANDS = {
     '/study': 'Begins the study session',
     '/stop': 'Terminates the study session',
     '/lockin' : 'Try it then u know',
+    '/cancel': 'Cancels the current operation'
 }
 
 
@@ -102,9 +103,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     )
     
     await update.message.reply_text(
-        "Welcome to NUS Course Materials Bot! :3\n"
-        "For more commands, type /help to learn more uwu slayyyyyy\n"
-        "Please select your faculty:",
+        """
+        ✨Hey there, welcome to StudyBoNUS!✨\n\nYour go-to study sidekick for owning that NUS bell curve like a pro 💅.\n\n Grab all the good stuff—faculty notes, past year papers, and the ultimate cheatsheets—right here in one spot! 📚🔥\n\nKeep your study grind strong with our built-in Pomodoro clock ⏳. It’s fun, it’s efficient, and it’s your new productivity BFF. Let’s goooo! 💪\n\nType /help to explore all the commands—uwu slayyyy~ 🫶 \n\nDon’t gatekeep! Share this with your friends and send us your notes if you wanna contribute to the fam. \n📧 Email us: studybonus@gmail.com\n\nAlright, pick your faculty and let’s dive in! 😎
+        """,
         reply_markup=reply_markup
     )
     return FACULTY
@@ -122,13 +123,13 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     
     if faculty == "Upcoming":
         await update.message.reply_text(
-            "More faculties upcoming soon! Stay tuned! :3"
+            "More faculties coming soon! Stay tuned! 👀✨"
         )
         return await start(update, context)
     faculties = COURSES_DATA.keys()
     if faculty not in faculties:
         await update.message.reply_text(
-            "Invalid faculty. Please select again.",
+            "Bruh, that ain't it. Try again and pick your actual faculty 🤨✋",
             reply_markup=ReplyKeyboardRemove()
         )
         keyboard = [['School of Computing'], ['Upcoming']]
@@ -138,7 +139,7 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             resize_keyboard=True
         )
         await update.message.reply_text(
-            "Please select your faculty:",
+            "Alright bestie, tap your faculty and let’s vibe 🎓✨👇",
             reply_markup=reply_markup
         )
         return FACULTY
@@ -161,7 +162,7 @@ async def faculty_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     )
     
     await update.message.reply_text(
-        "Please select the course level:",
+        "Choose your course level fam! From 1000 to 6000, pick your vibe! 👨‍💻🔥",
         reply_markup=reply_markup
     )
     return LEVEL
@@ -181,7 +182,7 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             resize_keyboard=True
         )
         await update.message.reply_text(
-            "Please select your faculty:",
+            "Alright bestie, tap your faculty and let’s vibe 🎓✨👇",
             reply_markup=reply_markup
         )
         return FACULTY
@@ -199,13 +200,13 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         )
         
         await update.message.reply_text(
-            "Please select the course:",
+            "Which course are you conquering today?💥📚",
             reply_markup=reply_markup
         )
         return COURSE
     except KeyError:
         await update.message.reply_text(
-            "Sorry, no courses available for this selection. Please try again.",
+            "Yikes! No courses for this level. Guess you're too advanced for us 😂 Try another level!",
             reply_markup=ReplyKeyboardRemove()
         )
         keyboard = [
@@ -224,7 +225,7 @@ async def level_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             resize_keyboard=True
         )
         await update.message.reply_text(
-            "Please select the course level:",
+            "Choose your course level fam! From 1000 to 6000, pick your vibe! 👨‍💻🔥",
             reply_markup=reply_markup
         )
         return LEVEL
@@ -259,7 +260,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             resize_keyboard=True
         )
         await update.message.reply_text(
-            "Please select the course level:",
+            "Choose your course level fam! From 1000 to 6000, pick your vibe! 👨‍💻🔥",
             reply_markup=reply_markup
         )
         return LEVEL
@@ -301,7 +302,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             f"Course: {course_code}\n"
             f"Description: {course_info['description']}\n"
             f"Course Link: {NUS_MODS_WEBSITE_PREFIX + course_code}\n\n"
-            "Please select the material type:"
+            "Ayo, time to choose your weapon! What’s your material type? 🔥👀"
         )
         
         await update.message.reply_text(
@@ -311,7 +312,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
         return MATERIAL_TYPE
     except KeyError:
         await update.message.reply_text(
-            "Sorry, course information not available. Please try again.",
+            "Whoops, can’t find that course right now! Hit it up again! 🔄",
             reply_markup=ReplyKeyboardRemove()
         )
         courses = COURSES_DATA[context.user_data['faculty']][context.user_data['level']]
@@ -323,7 +324,7 @@ async def course_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
             resize_keyboard=True
         )
         await update.message.reply_text(
-            "Please select the course:",
+            "Which course are you conquering today?💥📚",
             reply_markup=reply_markup
         )
         return COURSE
@@ -346,7 +347,7 @@ async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 resize_keyboard=True
             )
             await update.message.reply_text(
-                "Please select the course:",
+                "Which course are you conquering today?💥📚",
                 reply_markup=reply_markup
             )
             return COURSE
@@ -360,7 +361,7 @@ async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         keyboard.append(['Back', 'Main Menu'])
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            f"Please select the exam type for {material_type}:",
+            f"Which {material_type} exam are we smashing today? 🧠🔥",
             reply_markup=reply_markup
         )
         return EXAM_TYPE
@@ -377,7 +378,7 @@ async def material_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         ]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            "You can select another material type or go back:",
+            "Feel free to choose another material or go back! 🔁",
             reply_markup=reply_markup
         )
         return MATERIAL_TYPE
@@ -400,21 +401,21 @@ async def exam_type_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         ]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            "Please select the material type:",
+            "Ayo, time to choose your weapon! What’s your material type? 🔥👀",
             reply_markup=reply_markup
         )
         return MATERIAL_TYPE
     
     if exam_type not in EXAM_TYPE_DATA:
         await update.message.reply_text(
-            "Invalid exam type. Please select again.",
+            "Oops, that exam doesn’t exist! Try again! 😅",
             reply_markup=ReplyKeyboardRemove()
         )
         keyboard = [[exam] for exam in EXAM_TYPE_DATA]
         keyboard.append(['Back', 'Main Menu'])
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            f"Please select the exam type for {context.user_data['material_type']}:",
+            f"Which {context.user_data['material_type']} exam are we smashing today? 🧠🔥",
             reply_markup=reply_markup
         )
         return EXAM_TYPE
@@ -437,7 +438,7 @@ async def exam_type_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         keyboard = [[exam] for exam in EXAM_TYPE_DATA + ['Back', 'Main Menu']]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            "You can select another exam type or go back:",
+            "Want to try a different exam type or go back? Your call! 📚 Or use /study to start grinding! 🧠",
             reply_markup=reply_markup
         )
         return EXAM_TYPE
@@ -453,7 +454,7 @@ async def year_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         keyboard = [[exam] for exam in EXAM_TYPE_DATA + ['Back', 'Main Menu']]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         await update.message.reply_text(
-            f"Please select the exam type:",
+            f"Which exam are we smashing today? 🧠🔥",
             reply_markup=reply_markup
         )
         return EXAM_TYPE
@@ -465,7 +466,7 @@ async def year_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     keyboard = [[y] for y in YEAR_DATA + ['Back', 'Main Menu']]
     reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
     await update.message.reply_text(
-        "You can select another year or go back:",
+        "You can select another year or go back ⏪",
         reply_markup=reply_markup
     )
     return YEAR
@@ -588,18 +589,18 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
                                 )
                         else:
                             await update.message.reply_text(
-                                f"Failed to download file {index+1}. You can access it directly here:\n{drive_link}"
+                                f"Uh-oh, the file {index+1} didn’t download properly. You can access it directly here:\n{drive_link}"
                             )
                     except Exception as e:
                         logger.error(f"Error sending file {index+1}: {str(e)}")
                         await update.message.reply_text(
-                            f"Error sending file {index+1}. You can access it directly here:\n{drive_link}"
+                            f"Uh-oh! Something went wrong with sending file {index+1}. You can access it directly here:\n{drive_link}"
                         )
 
             except Exception as e:
                 logger.error(f"Error sending file: {str(e)}")
                 await update.message.reply_text(
-                    "Sorry, there was an error sending the file. "
+                    "Aww snap, the file didn’t send."
                     "You can access it directly here:\n" + drive_link
                 )
             
@@ -609,21 +610,21 @@ async def send_material(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     except KeyError as e:
         logger.error(f"KeyError in send_material: {str(e)}")
         await update.message.reply_text(
-            "Sorry, this material is not available. Please try another option."
+            "Aww, this material’s ghosting us. Wanna pick something else? 👻"
         )
         return None
     
     except Exception as e:
         logger.error(f"Unexpected error in send_material: {str(e)}")
         await update.message.reply_text(
-            "Sorry, there was an unexpected error. Please try again."
+            "Oof, error alert! Let’s give it another go with /start! 🚨"
         )
         return None
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancel the conversation."""
     await update.message.reply_text(
-        'Operation cancelled. Use /start to begin again.',
+        'Mission aborted. Hit /start to try again! 🚀',
         reply_markup=ReplyKeyboardRemove()
     )
     return ConversationHandler.END
@@ -637,7 +638,7 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             context.user_data.clear()
             
             await update.message.reply_text(
-                "An error occurred. Please use /start to begin again.",
+                "Oof, error alert! Let’s give it another go with /start! 🚨",
                 reply_markup=ReplyKeyboardRemove()  # Remove any existing keyboard
             )
     except Exception as e:
@@ -649,7 +650,7 @@ async def spam_user_until_comeback(update:Update, context: ContextTypes.DEFAULT_
     while study_state['break']:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"COME BACK AND STUDY! Use /lockin to disable this notification!"
+            text=f"STOP WATCHING BRAINROT AND COME BACK AND STUDY👺! Use /lockin or I will keep REMINDING YOU!"
         )
         await asyncio.sleep(3)
 
@@ -663,18 +664,19 @@ async def send_study_updates(update:Update, context: ContextTypes.DEFAULT_TYPE) 
         study_state['break'] = True
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"No your crush did not text you. But good job studying! Heres a video for you to relax to: {video_link}"
+            text=f"No your crush did not text you. 🤡 But good job studying! 🥰 Heres a video for you to relax to: {video_link}"
         )
-        await asyncio.sleep(300)
+        await asyncio.sleep(60)
         asyncio.create_task(spam_user_until_comeback(update, context))
 
-        await asyncio.sleep(25*60)
+        await asyncio.sleep(60)
 
 async def start_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     study_state['studying'] = True
     study_state['start_time'] = time.time()
     await update.message.reply_text(
-        "Rizzler be locking in! Get mewing sigma!"
+        "Rizzler be locking in! Get mewing sigma!\n" +
+        "You can rest for 5 minutes every 25 minutes. Use /stop to stop studying."
     )
     asyncio.create_task(send_study_updates(update, context))
     return
@@ -682,7 +684,8 @@ async def start_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 async def stop_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     study_state['studying'] = False
     await update.message.reply_text(
-        "Thats very skibidi of you :((((((("
+        "Thats very skibidi of you :((((((( \n" +
+        "Use /start to start studying again to save your CGPA!"
     )
     return
 
