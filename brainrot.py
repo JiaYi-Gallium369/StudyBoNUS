@@ -10,5 +10,12 @@ BRAIN_ROT_VIDEOS = [
 "https://www.youtube.com/watch?v=emL4LESttVo",
 "https://www.youtube.com/watch?v=8yrHqBATbfg",
 "https://www.youtube.com/watch?v=ObhmrE6FyNs",
-"https://www.youtube.com/watch?v=tMV2oE0BjUo"
+"https://www.youtube.com/watch?v=tMV2oE0BjUo",
+"https://www.youtube.com/shorts/ZkNG47vgfgY",
+"https://www.youtube.com/watch?v=g0YHb6OSJ6g&pp=ygUIY3V0ZSBkb2c%3D",
+"https://www.youtube.com/watch?v=PKQPey6L42M",
+"https://www.youtube.com/watch?v=cytJLvf-eVs&pp=ygUPY3V0ZSBjYXQgdmlkZW9z",
+"https://www.youtube.com/watch?v=paWE-GvDO1c&pp=ygUPY3V0ZSBjYXQgdmlkZW9z",
+"https://www.youtube.com/watch?v=IZzeLnaygME&pp=ygUPY3V0ZSBkb2cgdmlkZW9z",
+"https://www.youtube.com/watch?v=FIpPDFhRWOI&pp=ygUPY3V0ZSBkb2cgdmlkZW9z"
 ]
