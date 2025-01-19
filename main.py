@@ -692,6 +692,7 @@ async def start_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 
 async def stop_study_mode(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     study_state['studying'] = False
+    study_state['break'] = False
     await update.message.reply_text(
         "Thats very skibidi of you :((((((( \n" +
         "Use /start to start studying again to save your CGPA!"
