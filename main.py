@@ -659,11 +659,15 @@ async def user_comes_back_update(update:Update, context: ContextTypes.DEFAULT_TY
 async def send_study_updates(update:Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await asyncio.sleep(60)
     while study_state['studying']:
-        video_link = random.choice(BRAIN_ROT_VIDEOS)
+        
+        video_links = random.sample(BRAIN_ROT_VIDEOS, 3)
         study_state['break'] = True
+        base_text = "No your crush did not text you. But good job studying! Here's some videos for you to relax to:\n"
+        for video_link in video_links:
+            base_text += f"{video_link}\n"
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=f"No your crush did not text you. But good job studying! Heres a video for you to relax to: {video_link}"
+            text=base_text
         )
         await asyncio.sleep(300)
         asyncio.create_task(spam_user_until_comeback(update, context))
